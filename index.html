@@ -372,17 +372,13 @@
 
     async function submitPreorder(data) {
       if (!GAS_ENDPOINT) {
-        // エンドポイント未設定時はコンソールに出力（開発用）
         console.log('[DEV] Pre-order data:', JSON.stringify(data, null, 2));
         return;
       }
 
-      await fetch(GAS_ENDPOINT, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(data),
-      });
+      const url = new URL(GAS_ENDPOINT);
+      Object.entries(data).forEach(([k, v]) => url.searchParams.append(k, v));
+      await fetch(url, { mode: 'no-cors' });
     }
   </script>
 </body>
