@@ -377,14 +377,12 @@
         return;
       }
 
-      const res = await fetch(GAS_ENDPOINT, {
+      await fetch(GAS_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(data),
       });
-
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return res.json();
     }
   </script>
 </body>
