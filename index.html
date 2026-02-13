@@ -218,6 +218,22 @@
 
     <!-- Bottom Bar -->
     <div class="bottom-bar">
+      <button class="btn-ar" id="btnAR" style="
+        display: inline-block;
+        width: 100%;
+        max-width: 360px;
+        padding: 14px 0;
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: .1em;
+        color: #fff;
+        background: rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.3);
+        border-radius: 32px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        backdrop-filter: blur(8px);
+      ">AR で見る</button>
       <button class="btn-preorder" id="btnPreorder">PRE-ORDER / ご予約</button>
     </div>
 
@@ -264,6 +280,17 @@
     const form         = document.getElementById('preorderForm');
     const btnSubmit    = document.getElementById('btnSubmit');
     const toast        = document.getElementById('toast');
+    const btnAR        = document.getElementById('btnAR');
+    const viewer       = document.getElementById('viewer');
+
+    // --- AR button ---
+    btnAR.addEventListener('click', () => {
+      if (viewer.canActivateAR) {
+        viewer.activateAR();
+      } else {
+        alert('お使いの端末ではARに対応していません。\nスマートフォンでお試しください。');
+      }
+    });
 
     // --- Modal open / close ---
     btnPreorder.addEventListener('click', () => modalOverlay.classList.add('active'));
