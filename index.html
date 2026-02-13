@@ -241,7 +241,7 @@
 
     <!-- Bottom Bar -->
     <div class="bottom-bar">
-      <button class="btn-preorder" id="btnPreorder">Waiting Pre-ORDER</button>
+      <button class="btn-preorder" id="btnPreorder">Waiting List Notify</button>
     </div>
 
   </div>
@@ -249,7 +249,7 @@
   <!-- Modal Overlay -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
-      <h2>PRE-ORDER</h2>
+      <h2>WAITING LIST NOTIFY</h2>
       <form id="preorderForm" novalidate>
         <div class="form-group">
           <label>Name<span class="required">*</span></label>
@@ -258,6 +258,10 @@
         <div class="form-group">
           <label>Company</label>
           <input type="text" name="company" placeholder="Company Inc." />
+        </div>
+        <div class="form-group">
+          <label>Industry</label>
+          <input type="text" name="industry" placeholder="e.g. Retail, Art, Fashion" />
         </div>
         <div class="form-group">
           <label>Phone<span class="required">*</span></label>
@@ -274,7 +278,7 @@
   </div>
 
   <!-- Toast -->
-  <div class="toast" id="toast">Thank you for your pre-order!</div>
+  <div class="toast" id="toast">Thank you! We will contact you soon!</div>
 
   <script>
     /* =========================================================
@@ -319,6 +323,7 @@
       const data = {
         name:    form.name.value.trim(),
         company: form.company.value.trim(),
+        industry: form.industry.value.trim(),
         phone:   form.phone.value.trim(),
         email:   form.email.value.trim(),
       };
@@ -337,7 +342,7 @@
         // Success
         form.reset();
         modalOverlay.classList.remove('active');
-        showToast('Thank you for your pre-order!');
+        showToast('Thank you! We will contact you soon!');
       } catch (err) {
         console.error('Submit error:', err);
         alert('Submission failed. Please try again.');
