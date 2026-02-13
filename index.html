@@ -370,15 +370,21 @@
      * ========================================================= */
     const GAS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz0hk_ZldmpQFqg8hN30gmYSUGlJ-B2HWuQG2huIn8NJIkfx4wlyhE7tcJ6RBwgcwGP/exec';
 
-    async function submitPreorder(data) {
+    function submitPreorder(data) {
       if (!GAS_ENDPOINT) {
         console.log('[DEV] Pre-order data:', JSON.stringify(data, null, 2));
-        return;
+        return Promise.resolve();
       }
 
-      const url = new URL(GAS_ENDPOINT);
-      Object.entries(data).forEach(([k, v]) => url.searchParams.append(k, v));
-      await fetch(url, { mode: 'no-cors' });
+      return new Promise((resolve, reject) => {
+        const url = new URL(GAS_ENDPOINT);
+        Object.entries(data).forEach(([k, v]) => url.searchParams.append(k, v));
+        const img = new Image();
+        img.onload = resolve;
+        img.onerror = resolve; // GAS returns JSON, not image — onerror is expected but data is sent
+        img.src = url.toString();
+        setTimeout(resolve, 3000); // fallback timeout
+      });
     }
   </script>
 </body>
