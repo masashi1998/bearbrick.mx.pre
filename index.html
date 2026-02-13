@@ -214,6 +214,29 @@
         backdrop-filter: blur(8px);
         cursor: pointer;
       ">AR で見る</button>
+
+      <!-- Loading Progress Bar -->
+      <div id="progressWrapper" style="
+        position: absolute; bottom: 0; left: 0; width: 100%;
+        padding: 0 20px 40px;
+        text-align: center;
+        pointer-events: none;
+      ">
+        <div style="
+          font-size: .75rem; color: #aaa; letter-spacing: .1em; margin-bottom: 8px;
+        "><span id="progressText">LOADING... 0%</span></div>
+        <div style="
+          width: 100%; max-width: 280px; height: 3px; margin: 0 auto;
+          background: rgba(255,255,255,.15); border-radius: 2px; overflow: hidden;
+        ">
+          <div id="progressBar" style="
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, #f5d020, #f53803);
+            border-radius: 2px;
+            transition: width .2s ease;
+          "></div>
+        </div>
+      </div>
     </model-viewer>
 
     <!-- Bottom Bar -->
@@ -282,6 +305,21 @@
     const toast        = document.getElementById('toast');
     const btnAR        = document.getElementById('btnAR');
     const viewer       = document.getElementById('viewer');
+
+    // --- Loading progress ---
+    const progressWrapper = document.getElementById('progressWrapper');
+    const progressBar     = document.getElementById('progressBar');
+    const progressText    = document.getElementById('progressText');
+
+    viewer.addEventListener('progress', (e) => {
+      const pct = Math.round(e.detail.totalProgress * 100);
+      progressBar.style.width = pct + '%';
+      progressText.textContent = 'LOADING... ' + pct + '%';
+      if (pct >= 100) {
+        setTimeout(() => { progressWrapper.style.opacity = '0'; progressWrapper.style.transition = 'opacity .5s'; }, 300);
+        setTimeout(() => { progressWrapper.style.display = 'none'; }, 800);
+      }
+    });
 
     // --- AR button ---
     btnAR.addEventListener('click', () => {
