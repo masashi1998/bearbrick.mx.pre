@@ -197,10 +197,10 @@
       touch-action="pan-y"
       auto-rotate
       rotation-per-second="30deg"
-      camera-orbit="0deg 90deg 0.25m"
-      camera-target="0m 0.05m 0m"
-      min-camera-orbit="auto auto 0.15m"
-      max-camera-orbit="auto auto 0.6m"
+      camera-orbit="0deg 75deg 0.35m"
+      camera-target="0m 0.06m 0m"
+      min-camera-orbit="auto auto 0.2m"
+      max-camera-orbit="auto auto 0.8m"
       interaction-prompt="auto"
       shadow-intensity="1.2"
       environment-image="neutral"
@@ -311,6 +311,11 @@
         const scaleFactor = TARGET_HEIGHT / size.y;
         viewer.scale = `${scaleFactor} ${scaleFactor} ${scaleFactor}`;
         console.log(`Model scaled: original height=${size.y}m → target=${TARGET_HEIGHT}m, factor=${scaleFactor.toFixed(4)}`);
+
+        // After scaling, re-center the camera on the model
+        const halfHeight = TARGET_HEIGHT / 2;
+        viewer.cameraTarget = `0m ${halfHeight.toFixed(3)}m 0m`;
+        viewer.cameraOrbit = `0deg 75deg 0.35m`;
       }
     });
 
