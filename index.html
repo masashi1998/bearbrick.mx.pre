@@ -298,6 +298,18 @@
     const progressBar     = document.getElementById('progressBar');
     const progressText    = document.getElementById('progressText');
 
+    // --- Scale model to real-world size (14cm = 0.14m) ---
+    const TARGET_HEIGHT = 0.14; // meters
+    viewer.addEventListener('load', () => {
+      const center = viewer.getBoundingBoxCenter();
+      const size = viewer.getDimensions();
+      if (size.y > 0) {
+        const scaleFactor = TARGET_HEIGHT / size.y;
+        viewer.scale = `${scaleFactor} ${scaleFactor} ${scaleFactor}`;
+        console.log(`Model scaled: original height=${size.y}m → target=${TARGET_HEIGHT}m, factor=${scaleFactor.toFixed(4)}`);
+      }
+    });
+
     viewer.addEventListener('progress', (e) => {
       const pct = Math.round(e.detail.totalProgress * 100);
       progressBar.style.width = pct + '%';
